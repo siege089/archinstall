@@ -27,11 +27,11 @@ def select_disk():
         user_input = ''
 
         input_message = "Pick an option:\n"
+        for index, item in enumerate(disk_options):
+            input_message += f'{index + 1}) {item}\n'
         while user_input.lower() not in disk_options:
             user_input = input(input_message)
 
-        for index, item in enumerate(disk_options):
-            input_message += f'{index + 1}) {item}\n'
 
 
     except subprocess.CalledProcessError as exc:
