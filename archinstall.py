@@ -77,9 +77,9 @@ if cpu_type == "AuthenticAMD":
 elif cpu_type == "GenuineIntel":
     intel = True
 
-# os.system("stty -echo")
-# root_password = input("Enter password for root:\n")
-# os.system("stty echo")
+os.system("stty -echo")
+root_password = input("Enter password for root:\n")
+os.system("stty echo")
 #
 # username = input("Enter a username:\n")
 #
@@ -123,4 +123,5 @@ if install_type == "Desktop":
 call_script("copy_install_scripts.sh")
 chroot_script("set_timezone.sh")
 chroot_script("set_localization.sh")
-chroot_script(f"set_network_configuration.sh {hostname}.sh")
+chroot_script(f"set_network_configuration.sh {hostname}")
+chroot_script(f"set_root_password.sh {root_password}")
