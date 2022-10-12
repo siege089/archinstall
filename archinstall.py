@@ -80,33 +80,33 @@ elif cpu_type == "GenuineIntel":
 os.system("stty -echo")
 root_password = input("Enter password for root:\n")
 os.system("stty echo")
-#
-# username = input("Enter a username:\n")
-#
-# os.system("stty -echo")
-# user_password = input(f"Enter password for {username}:\n")
-# os.system("stty echo")
+
+username = input("Enter a username:\n")
+
+os.system("stty -echo")
+user_password = input(f"Enter password for {username}:\n")
+os.system("stty echo")
 
 print("\n")
 print("********************")
-# print(f"Hostname: {hostname}")
-# print(f"Selected Disk: {disk} !!! DISK WILL BE FORMATTED AND ALL DATA ERASED !!!")
-# print(f"Username: {username}")
+print(f"Hostname: {hostname}")
+print(f"Selected Disk: {disk} !!! DISK WILL BE FORMATTED AND ALL DATA ERASED !!!")
+print(f"Username: {username}")
 print("********************")
 if YES_NO[present_options(YES_NO, "Confirm Installation")] == "No":
     raise Exception("Installation Aborted")
 
 call_script("unmount.sh", supress_error=True)
-# call_script(f"create_partitions.sh {disk}")
+call_script(f"create_partitions.sh {disk}")
 boot = call_script(f"get_boot_partition.sh {disk}")
 root = call_script(f"get_root_partition.sh {disk}")
 call_script(f"mount_file_system.sh {root} {boot}")
 
-# if YES_NO[present_options(YES_NO, "Provide specific mirror?")] == "Yes":
-#     mirror = input("Enter mirror root:\n")
-#     call_script(f"select_custom_mirror.sh '{mirror}'")
-# else:
-#     call_script("select_mirror.sh")
+if YES_NO[present_options(YES_NO, "Provide specific mirror?")] == "Yes":
+    mirror = input("Enter mirror root:\n")
+    call_script(f"select_custom_mirror.sh '{mirror}'")
+else:
+    call_script("select_mirror.sh")
 
 install_type = INSTALL_TYPES[present_options(INSTALL_TYPES, "Select Install type", INSTALL_TYPES_DESC)]
 packages = "base linux linux-headers linux-zen linux-zen-headers linux-firmware nano networkmanager openssh snapper zsh sudo git base-devel"
