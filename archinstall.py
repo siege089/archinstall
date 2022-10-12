@@ -20,14 +20,6 @@ def call_script(script, error_message=None):
             raise Exception(error_message)
         raise Exception(exc.stdout)
 
-def call_command(command, error_message=None):
-    command = f"bash {command}"
-    try:
-        output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError as exc:
-        if error_message is not None:
-            raise Exception(error_message)
-        raise Exception(exc.stdout)
 
 def present_options(options, message):
     user_input = ''
@@ -79,10 +71,10 @@ os.system("stty echo")
 print("\n")
 print("********************")
 print(f"Hostname: {hostname}")
-print(f"Selected Disk: {disk} !!!any existing partitions will be erased!!!")
+print(f"Selected Disk: {disk} !!! DISK WILL BE FORMATTED AND ALL DATA ERASED !!!")
 print(f"Username: {username}")
 print("********************")
 if present_options(["Yes", "No"], "Confirm Installation") != 0:
     raise Exception("Installation Aborted")
 
-call_command("umount -R /mnt")
+call_script("unmount.sh")

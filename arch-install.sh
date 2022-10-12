@@ -10,7 +10,6 @@ error_exit()
 
 
 
-umount -R /mnt
 
 echo "1.9.1 Example layouts - UEFI with GPT (no swap)" | tee -a arch-install.log
 partitions=($(fdisk -l 2> /dev/null | awk -v var="$disk" '$1 ~ var { print $1 }'))
