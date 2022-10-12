@@ -11,11 +11,6 @@ error_exit()
 
 
 
-echo "1.11 Mount the file systems"
-mount $root /mnt
-mount --mkdir $boot /mnt/boot
-
-
 echo "2.1 Select the mirrors"
 #echo 'Server = https://archmirror.cjfravel.dev/' > /etc/pacman.d/localcache
 echo 'Server = https://archmirror.cjfravel.dev/$repo/os/$arch' > /etc/pacman.d/localcache
