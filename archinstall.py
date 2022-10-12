@@ -62,4 +62,7 @@ root_password = input("Enter password for root:\n")
 os.system("stty echo")
 
 username = input("Enter a username:\n")
+
+os.system("stty -echo")
 user_password = input(f"Enter password for {username}:\n")
+os.system("stty echo")
