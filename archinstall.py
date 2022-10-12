@@ -1,3 +1,4 @@
+import getopt, sys
 import os
 import re
 import subprocess
@@ -86,6 +87,26 @@ INSTALL_TYPES_DESC = ["Subtypes Presented Later",
                       "Alacritty terminal, basic plasma desktop, bluetooth support, Pipewire audio"]
 SERVER_TYPES = ["Hadoop"]
 
+full_cmd_arguments = sys.argv
+argument_list = full_cmd_arguments[1:]
+short_options = "m:"
+long_options = ["mirror="]
+try:
+    arguments, values = getopt.getopt(argument_list, short_options, long_options)
+except getopt.error as err:
+    # Output error, and return with an error code
+    print (str(err))
+    sys.exit(2)
+
+mirror = None
+for current_argument, current_value in arguments:
+    if current_argument in ("-m", "--mirror"):
+        mirror = current_value
+
+
+
+
+
 call_script("verify_boot_mode.sh",
             "Not in UEFI Boot Mode https://wiki.archlinux.org/title/installation_guide#Verify_the_boot_mode")
 call_script("connect_to_internet.sh")
@@ -125,11 +146,14 @@ boot = call_script(f"get_boot_partition.sh {disk}")
 root = call_script(f"get_root_partition.sh {disk}")
 call_script(f"mount_file_system.sh {root} {boot}")
 
-if YES_NO[present_options(YES_NO, "Provide specific mirror?")] == "Yes":
-    mirror = input("Enter mirror root:\n")
+if mirror is not None:
     call_script(f"select_custom_mirror.sh '{mirror}'")
 else:
-    call_script("select_mirror.sh")
+    if YES_NO[present_options(YES_NO, "Provide specific mirror?")] == "Yes":
+        mirror = input("Enter mirror root:\n")
+        call_script(f"select_custom_mirror.sh '{mirror}'")
+    else:
+        call_script("select_mirror.sh")
 
 install_type = INSTALL_TYPES[present_options(INSTALL_TYPES, "Select Install type", INSTALL_TYPES_DESC)]
 packages = "base linux linux-headers linux-zen linux-zen-headers linux-firmware nano networkmanager openssh snapper zsh sudo git base-devel"
