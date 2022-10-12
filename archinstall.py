@@ -3,6 +3,29 @@ import re
 import subprocess
 
 
+def prRed(skk): print("\033[91m {}\033[00m".format(skk))
+
+
+def prGreen(skk): print("\033[92m {}\033[00m".format(skk))
+
+
+def prYellow(skk): print("\033[93m {}\033[00m".format(skk))
+
+
+def prLightPurple(skk): print("\033[94m {}\033[00m".format(skk))
+
+
+def prPurple(skk): print("\033[95m {}\033[00m".format(skk))
+
+
+def prCyan(skk): print("\033[96m {}\033[00m".format(skk))
+
+
+def prLightGray(skk): print("\033[97m {}\033[00m".format(skk))
+
+
+def prBlack(skk): print("\033[98m {}\033[00m".format(skk))
+
 def get_cpu_type():
     command = "cat /proc/cpuinfo"
     all_info = subprocess.check_output(command, shell=True).decode().strip()
@@ -60,7 +83,7 @@ def select_disk():
 YES_NO = ["Yes", "No"]
 INSTALL_TYPES = ["Server", "Desktop"]
 INSTALL_TYPES_DESC = ["Subtypes Presented Later",
-                      "Alacritty terminal, KDE desktop with login, bluetooth support, Pipewire audio"]
+                      "Alacritty terminal, basic plasma desktop, bluetooth support, Pipewire audio"]
 SERVER_TYPES = ["Hadoop"]
 
 call_script("verify_boot_mode.sh",
@@ -90,14 +113,14 @@ os.system("stty echo")
 print("\n")
 print("********************")
 print(f"Hostname: {hostname}")
-print(f"Selected Disk: {disk} !!! DISK WILL BE FORMATTED AND ALL DATA ERASED !!!")
+prRed(f"Selected Disk: {disk} !!! DISK WILL BE FORMATTED AND ALL DATA ERASED !!!")
 print(f"Username: {username}")
 print("********************")
 if YES_NO[present_options(YES_NO, "Confirm Installation")] == "No":
     raise Exception("Installation Aborted")
 
 call_script("unmount.sh", supress_error=True)
-call_script(f"create_partitions.sh {disk}")
+# call_script(f"create_partitions.sh {disk}")
 boot = call_script(f"get_boot_partition.sh {disk}")
 root = call_script(f"get_root_partition.sh {disk}")
 call_script(f"mount_file_system.sh {root} {boot}")
@@ -120,7 +143,7 @@ if intel:
 if install_type == "Desktop":
     packages += " bluez-utils blueman alacritty plasma xorg pipewire"
 
-call_script(f"pacstrap.sh '{packages}'")
+# call_script(f"pacstrap.sh '{packages}'")
 call_script("fstab.sh")
 
 call_script("copy_install_scripts.sh")
@@ -133,5 +156,6 @@ chroot_script(f"set_boot_loader.sh {cpu} {root}")
 systemctl_enables = ["snapper-boot.timer", "snapper-cleanup.timer", "snapper-timeline.timer", "NetworkManager"]
 if install_type == "Desktop":
     systemctl_enables += "sddm"
+print(systemctl_enables)
 for systemctl_enable in systemctl_enables:
     chroot_script(f"enable_systemctl_item.sh {systemctl_enable}")
