@@ -95,7 +95,7 @@ call_script(f"mount_file_system.sh {root} {boot}")
 
 if YES_NO[present_options(YES_NO, "Provide specific mirror?")] == "Yes":
     mirror = input("Enter mirror root:\n")
-    call_script(f"select_custom_mirror.sh {mirror}")
+    call_script(f"select_custom_mirror.sh '{mirror}'")
 else:
     call_script("select_mirror.sh")
 
