@@ -120,7 +120,7 @@ if intel:
 if install_type == "Desktop":
     packages += " bluez-utils blueman alacritty plasma xorg pipewire"
 
-call_script(f"pacstrap.sh {packages}")
+call_script(f"pacstrap.sh '{packages}'")
 call_script("fstab.sh")
 
 call_script("copy_install_scripts.sh")
