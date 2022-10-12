@@ -36,13 +36,9 @@ def select_disk():
     try:
         output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
         disk_options = output.decode().strip().splitlines()
-        return present_options(disk_options, "Select a disk")
-
-
+        return disk_options[present_options(disk_options, "Select a disk")]
 
     except subprocess.CalledProcessError as exc:
-        if error_message is not None:
-            raise Exception(error_message)
         raise Exception(exc.stdout)
 
 
