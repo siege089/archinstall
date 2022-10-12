@@ -10,8 +10,6 @@ error_exit()
 
 
 
-read -p "Enter username: " username
-
 echo "" | tee -a arch-install.log
 echo "Hostname: $hostname" | tee -a arch-install.log
 echo "Selected disk: $disk" | tee -a arch-install.log

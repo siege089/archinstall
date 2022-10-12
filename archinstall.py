@@ -66,3 +66,6 @@ username = input("Enter a username:\n")
 os.system("stty -echo")
 user_password = input(f"Enter password for {username}:\n")
 os.system("stty echo")
+
+if present_options(["Yes", "No"], "Confirm Installation") != 0:
+    raise Exception("Installation Aborted")
