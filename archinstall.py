@@ -110,10 +110,13 @@ call_script(f"mount_file_system.sh {root} {boot}")
 
 install_type = INSTALL_TYPES[present_options(INSTALL_TYPES, "Select Install type", INSTALL_TYPES_DESC)]
 packages = "base linux linux-headers linux-zen linux-zen-headers linux-firmware nano networkmanager openssh snapper zsh sudo git base-devel"
+cpu = ""
 if amd:
     packages += " amd-ucode"
+    cpu = "amd"
 if intel:
     packages += " intel-ucode"
+    cpu = "intel"
 if install_type == "Desktop":
     packages += " bluez-utils blueman alacritty plasma xorg pipewire"
 
@@ -125,3 +128,4 @@ chroot_script("set_timezone.sh")
 chroot_script("set_localization.sh")
 chroot_script(f"set_network_configuration.sh {hostname}")
 chroot_script(f"set_root_password.sh {root_password}")
+chroot_script(f"set_boot_loader.sh {cpu}")
