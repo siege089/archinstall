@@ -54,3 +54,11 @@
 	fi
 	echo "initrd /initramfs-linux-fallback.img" >> /boot/loader/entries/arch-fallback.conf
 	echo "options root=$root rw" >> /boot/loader/entries/arch-fallback.conf
+
+	echo "#timeout 3
+	#console-mode keep
+
+	default arch-zen.conf
+	timeout 4
+	console-mode max
+	editor yes" > /boot/loader/loader.conf

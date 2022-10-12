@@ -129,3 +129,9 @@ chroot_script("set_localization.sh")
 chroot_script(f"set_network_configuration.sh {hostname}")
 chroot_script(f"set_root_password.sh {root_password}")
 chroot_script(f"set_boot_loader.sh {cpu} {root}")
+
+systemctl_enables = ["snapper-boot.timer", "snapper-cleanup.timer", "snapper-timeline.timer", "NetworkManager"]
+if install_type == "Desktop":
+    systemctl_enables += "sddm"
+for systemctl_enable in systemctl_enables:
+    chroot_script(f"enable_systemctl_item.sh {systemctl_enable}")
