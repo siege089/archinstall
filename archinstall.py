@@ -89,9 +89,9 @@ elif cpu_type == "GenuineIntel":
 
 print("\n")
 print("********************")
-print(f"Hostname: {hostname}")
-print(f"Selected Disk: {disk} !!! DISK WILL BE FORMATTED AND ALL DATA ERASED !!!")
-print(f"Username: {username}")
+# print(f"Hostname: {hostname}")
+# print(f"Selected Disk: {disk} !!! DISK WILL BE FORMATTED AND ALL DATA ERASED !!!")
+# print(f"Username: {username}")
 print("********************")
 if YES_NO[present_options(YES_NO, "Confirm Installation")] == "No":
     raise Exception("Installation Aborted")
