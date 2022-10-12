@@ -33,4 +33,5 @@ def select_disk():
 call_script("verify_boot_mode.sh", "Not in UEFI Boot Mode https://wiki.archlinux.org/title/installation_guide#Verify_the_boot_mode")
 call_script("connect_to_internet.sh")
 call_script("update_system_clock.sh")
+select_disk()
 print(get_cpu_type())
