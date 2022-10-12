@@ -28,7 +28,7 @@ def call_script(script, error_message=None, supress_error=False):
 
 
 def chroot_script(script, error_message=None, supress_error=False):
-    return call_command(f"arch-chroot /mnt sh -c scripts/{script}", error_message, supress_error)
+    return call_command(f"arch-chroot /mnt sh -c /usr/local/share/archinstall/scripts/{script}", error_message, supress_error)
 
 
 def present_options(options, message, descriptions=None):
@@ -121,3 +121,4 @@ if install_type == "Desktop":
 # call_script("fstab.sh")
 
 call_script("copy_install_scripts.sh")
+chroot_script("set_timezone.sh")
