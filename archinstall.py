@@ -12,7 +12,7 @@ def verify_boot_mode():
     try:
         output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as exc:
-        print(exc.output)
+        raise Exception("Not in UEFI Boot Mode https://wiki.archlinux.org/title/installation_guide#Verify_the_boot_mode")
     else:
         assert 0
 
