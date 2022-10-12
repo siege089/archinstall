@@ -15,6 +15,7 @@ def call_script(script, error_message=None, supress_error=False):
     command = f"bash scripts/{script}"
     try:
         output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
+        return output.decode().strip()
     except subprocess.CalledProcessError as exc:
         if not supress_error:
             if error_message is not None:
@@ -80,3 +81,7 @@ if present_options(["Yes", "No"], "Confirm Installation") != 0:
 
 call_script("unmount.sh", supress_error=True)
 call_script(f"create_partitions.sh {disk}")
+boot = call_script(f"get_boot_partition.sh {disk}")
+root = call_script(f"get_root_partition.sh {disk}")
+print(root)
+print(boot)
