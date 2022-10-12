@@ -1,4 +1,5 @@
 	cpu=$1
+	root=$2
 
 	echo "3.8 Boot loader"
 	bootctl install --esp-path=/boot
