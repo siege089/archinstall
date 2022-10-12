@@ -1,4 +1,6 @@
-import subprocess, re
+import os
+import re
+import subprocess
 
 
 def get_cpu_type():
@@ -55,6 +57,9 @@ if cpu_type == "AuthenticAMD":
 elif cpu_type == "GenuineIntel":
     intel = True
 
+os.system("stty -echo")
 root_password = input("Enter password for root:\n")
+os.system("stty echo")
+
 username = input("Enter a username:\n")
 user_password = input(f"Enter password for {username}:\n")
