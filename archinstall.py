@@ -23,7 +23,7 @@ def select_disk():
     command = "fdisk -l 2> /dev/null | awk '/^Disk \//{print substr($2,0,length($2)-1)}'"
     try:
         output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
-        print(output.decode())
+        print(output.decode().strip())
     except subprocess.CalledProcessError as exc:
         if error_message is not None:
             raise Exception(error_message)
