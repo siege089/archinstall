@@ -47,4 +47,14 @@ call_script("connect_to_internet.sh")
 call_script("update_system_clock.sh")
 disk = select_disk()
 hostname = input("Enter a hostname:\n")
-print(get_cpu_type())
+cpu_type = get_cpu_type()
+intel = False
+amd = False
+if cpu_type == "AuthenticAMD":
+    amd = True
+elif cpu_type == "GenuineIntel":
+    intel = True
+
+root_password = input("Enter password for root:\n")
+username = input("Enter a username:\n")
+user_password = input(f"Enter password for {username}:\n")

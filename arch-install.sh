@@ -9,31 +9,6 @@ error_exit()
 
 
 
-echo "1.9 Partition the disks" | tee -a arch-install.log
-disks=`fdisk -l 2> /dev/null | awk '/^Disk \//{print substr($2,0,length($2)-1)}'`
-PS3="Select the disk you wish in install arch to: "
-select disk in $disks
-do
-	break
-done
-echo "Selected disk: $disk"
-
-echo "Enter hostname" | tee -a arch-install.log
-read hostname
-
-cpu_manufacturer=`dmidecode -t 4 | grep 'Manufacturer'`
-cpu="unknown"
-amd="Advanced Micro Devices"
-intel="Intel"
-if [[ "$cpu_manufacturer" =~ .*"$amd".* ]]
-then
-  cpu="amd"
-fi
-if [[ "$cpu_manufacturer" =~ .*"$intel".* ]]
-then
-  cpu="intel"
-fi
-
 
 read -p "Enter username: " username
 
