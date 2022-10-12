@@ -1,31 +1,12 @@
-import getopt, sys
+import getopt
 import os
 import re
 import subprocess
+import sys
 
 
 def prRed(skk): print("\033[91m {}\033[00m".format(skk))
 
-
-def prGreen(skk): print("\033[92m {}\033[00m".format(skk))
-
-
-def prYellow(skk): print("\033[93m {}\033[00m".format(skk))
-
-
-def prLightPurple(skk): print("\033[94m {}\033[00m".format(skk))
-
-
-def prPurple(skk): print("\033[95m {}\033[00m".format(skk))
-
-
-def prCyan(skk): print("\033[96m {}\033[00m".format(skk))
-
-
-def prLightGray(skk): print("\033[97m {}\033[00m".format(skk))
-
-
-def prBlack(skk): print("\033[98m {}\033[00m".format(skk))
 
 def get_cpu_type():
     command = "cat /proc/cpuinfo"
@@ -52,7 +33,8 @@ def call_script(script, error_message=None, supress_error=False):
 
 
 def chroot_script(script, error_message=None, supress_error=False):
-    return call_command(f"arch-chroot /mnt bash /usr/local/share/archinstall/scripts/{script}", error_message, supress_error)
+    return call_command(f"arch-chroot /mnt bash /usr/local/share/archinstall/scripts/{script}", error_message,
+                        supress_error)
 
 
 def present_options(options, message, descriptions=None):
@@ -95,17 +77,13 @@ try:
     arguments, values = getopt.getopt(argument_list, short_options, long_options)
 except getopt.error as err:
     # Output error, and return with an error code
-    print (str(err))
+    print(str(err))
     sys.exit(2)
 
 mirror = None
 for current_argument, current_value in arguments:
     if current_argument in ("-m", "--mirror"):
         mirror = current_value
-
-
-
-
 
 call_script("verify_boot_mode.sh",
             "Not in UEFI Boot Mode https://wiki.archlinux.org/title/installation_guide#Verify_the_boot_mode")
