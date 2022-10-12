@@ -11,8 +11,8 @@ def get_cpu_type():
             return re.sub(".*vendor_id.*:", "", line, 1).strip()
 
 
-def call_script(script, error_message=None, supress_error=False):
-    command = f"bash scripts/{script}"
+def call_command(command, error_message=None, supress_error=False):
+    command = f"bash {command}"
     try:
         output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
         return output.decode().strip()
@@ -21,6 +21,11 @@ def call_script(script, error_message=None, supress_error=False):
             if error_message is not None:
                 raise Exception(error_message)
             raise Exception(exc.stdout)
+def call_script(script, error_message=None, supress_error=False):
+    return call_command(f"scripts/{script}", error_message, supress_error)
+
+def chroot_script(script, error_message=None, supress_error=False)
+    return call_command(f"arch-chroot /mnt sh -c scripts/{script}", error_message, supress_error)
 
 
 def present_options(options, message, descriptions=None):
@@ -109,3 +114,6 @@ if install_type == "Desktop":
     packages += " bluez-utils blueman alacritty plasma xorg pipewire"
 
 call_script(f"pacstrap.sh {packages}")
+call_script("fstab.sh")
+
+call_script("copy_install_scripts.sh")
