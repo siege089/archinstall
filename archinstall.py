@@ -10,7 +10,7 @@ def get_cpu_type():
 def verify_boot_mode():
     command = "bash scripts/verify_boot_mode.sh"
     try:
-        output = check_output(command, shell=True, stderr=STDOUT)
+        output = subprocess.check_output(command, shell=True, stderr=STDOUT)
     except CalledProcessError as exc:
         print(exc.output)
     else:
