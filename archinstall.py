@@ -67,5 +67,11 @@ os.system("stty -echo")
 user_password = input(f"Enter password for {username}:\n")
 os.system("stty echo")
 
+print("\n")
+print("********************")
+print(f"Hostname: {hostname}")
+print(f"Selected Disk: {disk}")
+print(f"Username: {username}")
+print("********************")
 if present_options(["Yes", "No"], "Confirm Installation") != 0:
     raise Exception("Installation Aborted")
