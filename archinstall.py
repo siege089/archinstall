@@ -122,3 +122,5 @@ if install_type == "Desktop":
 
 call_script("copy_install_scripts.sh")
 chroot_script("set_timezone.sh")
+chroot_script("set_localization.sh")
+chroot_script(f"set_network_configuration {hostname}.sh")
