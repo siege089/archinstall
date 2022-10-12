@@ -23,7 +23,17 @@ def select_disk():
     command = "fdisk -l 2> /dev/null | awk '/^Disk \//{print substr($2,0,length($2)-1)}'"
     try:
         output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
-        print(output.decode().strip())
+        disk_options = output.decode().strip().splitlines()
+        user_input = ''
+
+        input_message = "Pick an option:\n"
+        while user_input.lower() not in disk_options:
+            user_input = input(input_message)
+
+        for index, item in enumerate(disk_options):
+            input_message += f'{index + 1}) {item}\n'
+
+
     except subprocess.CalledProcessError as exc:
         if error_message is not None:
             raise Exception(error_message)
