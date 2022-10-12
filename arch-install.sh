@@ -3,7 +3,7 @@
 echo "starting script" | tee arch-install.log
 error_exit()
 {
-	echo "Error: $1" | tee -a arch-install.log
+	echo "Error: $1"
 	exit 1
 }
 
@@ -11,7 +11,7 @@ error_exit()
 
 
 
-echo "1.9.1 Example layouts - UEFI with GPT (no swap)" | tee -a arch-install.log
+echo "1.9.1 Example layouts - UEFI with GPT (no swap)"
 partitions=($(fdisk -l 2> /dev/null | awk -v var="$disk" '$1 ~ var { print $1 }'))
 reverse() {
     # first argument is the array to reverse
@@ -25,16 +25,16 @@ reverse() {
 reverse partitions partitions_rev
 for i in "${partitions_rev[@]}"
 do
-	echo "Deleting partition $i" | tee -a arch-install.log
+	echo "Deleting partition $i"
 	wipefs -a "$i" >> arch-install.log
 	(echo "d"; echo ""; echo "w") | fdisk $disk >> arch-install.log
 done
 wipefs -a "$disk" >> arch-install.log
 
-echo "Setting up partitions" | tee -a arch-install.log
+echo "Setting up partitions"
 (echo "g"; echo "n"; echo ""; echo ""; echo "+512M"; echo "t"; echo "1"; echo "n"; echo ""; echo ""; echo ""; echo "t";  echo "2"; echo "20"; echo "p"; echo "w") | fdisk $disk >> arch-install.log
 
-echo "1.10 Format the partitions" | tee -a arch-install.log
+echo "1.10 Format the partitions"
 partitions=($(fdisk -l 2> /dev/null | awk -v var="$disk" '$1 ~ var { print $1 }'))
 root=""
 boot=""
@@ -52,24 +52,24 @@ do
 	fi
 done
 
-echo "1.11 Mount the file systems" | tee -a arch-install.log
+echo "1.11 Mount the file systems"
 mount $root /mnt
 mount --mkdir $boot /mnt/boot
 
 
-echo "2.1 Select the mirrors" | tee -a arch-install.log
+echo "2.1 Select the mirrors"
 #echo 'Server = https://archmirror.cjfravel.dev/' > /etc/pacman.d/localcache
 echo 'Server = https://archmirror.cjfravel.dev/$repo/os/$arch' > /etc/pacman.d/localcache
 reflector -l 200 -n 20 -p https -c "United States" --save /etc/pacman.d/sorted
 cat /etc/pacman.d/sorted >> /etc/pacman.d/localcache
 cp /etc/pacman.d/localcache /etc/pacman.d/mirrorlist
 
-echo "2.2 Install essential packages" | tee -a arch-install.log
+echo "2.2 Install essential packages"
 sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
 pacstrap -K /mnt base linux linux-headers linux-zen linux-zen-headers linux-firmware nano networkmanager openssh snapper zsh bluez-utils blueman alacritty plasma xorg sudo git base-devel
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
-echo "3.1 Fstab" | tee -a arch-install.log
+echo "3.1 Fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
 
 
@@ -79,22 +79,22 @@ archroot () {
 	cpu=$3
 	username=$4
 
-	echo "3.3 Time zone" | tee -a arch-install.log
+	echo "3.3 Time zone"
 	ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime
 	hwclock --systohc
 
-	echo "3.4 Localization" | tee -a arch-install.log
+	echo "3.4 Localization"
 	sed -i '/en_US.UTF-8 UTF-8/s/^#//g' /etc/locale.gen
 	locale-gen
 	echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-	echo "3.5 Network configuration" | tee -a arch-install.log
+	echo "3.5 Network configuration"
 	echo "$hostname" > /etc/hostname
 
-	echo "3.7 Root password" | tee -a arch-install.log
+	echo "3.7 Root password"
 	passwd root
 
-	echo "3.8 Boot loader" | tee -a arch-install.log
+	echo "3.8 Boot loader"
 
 	if [[ "$cpu" = "amd" ]]
 	then
@@ -186,7 +186,7 @@ archroot () {
 	chmod +x post-arch-install.sh
 }
 
-echo "3.2 Chroot" | tee -a arch-install.log
+echo "3.2 Chroot"
 export -f archroot # makes the function visible to the arch-chroot
 arch-chroot /mnt /bin/bash -c "archroot $root $hostname $cpu $username" || echo "arch-chroot returned: $?"
 

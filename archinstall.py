@@ -79,3 +79,4 @@ if present_options(["Yes", "No"], "Confirm Installation") != 0:
     raise Exception("Installation Aborted")
 
 call_script("unmount.sh", supress_error=True)
+call_script(f"create_partitions.sh {disk}")
