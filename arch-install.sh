@@ -7,9 +7,6 @@ error_exit()
 	exit 1
 }
 
-echo "1.6 Verify the boot mode" | tee -a arch-install.log
-ls /sys/firmware/efi/efivars &> /dev/null || error_exit "Not in UEFI Boot Mode https://wiki.archlinux.org/title/installation_guide#Verify_the_boot_mode"
-
 echo "1.7 Connect to the internet" | tee -a arch-install.log
 linkup=`ip link | awk '/state UP/'`
 if [[ $linkup == "" ]]
