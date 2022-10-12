@@ -16,8 +16,6 @@ def verify_boot_mode():
     except subprocess.CalledProcessError as exc:
         raise Exception(
             "Not in UEFI Boot Mode https://wiki.archlinux.org/title/installation_guide#Verify_the_boot_mode")
-    else:
-        assert 0
 
 
 def connect_to_internet():
@@ -26,8 +24,6 @@ def connect_to_internet():
         output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as exc:
         raise Exception(exc.stdout)
-    else:
-        assert 0
 
 
 verify_boot_mode()
