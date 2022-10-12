@@ -8,12 +8,6 @@ error_exit()
 }
 
 
-echo "1.8 Update the system clock" | tee -a arch-install.log
-time_synced=`timedatectl status 2> /dev/null | awk '/^System clock synchronized:/{print $4}'`
-if [[ $time_synced == "no" ]]
-then
-	error_exit "test"
-fi
 
 echo "1.9 Partition the disks" | tee -a arch-install.log
 disks=`fdisk -l 2> /dev/null | awk '/^Disk \//{print substr($2,0,length($2)-1)}'`

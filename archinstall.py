@@ -19,6 +19,17 @@ def call_script(script, error_message=None):
         raise Exception(exc.stdout)
 
 
+def select_disk():
+    command = "fdisk -l 2> /dev/null | awk '/^Disk \//{print substr($2,0,length($2)-1)}'"
+    try:
+        output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT, stdin=subprocess.STD_OUTPUT_HANDLE)
+        print(output)
+    except subprocess.CalledProcessError as exc:
+        if error_message is not None:
+            raise Exception(error_message)
+        raise Exception(exc.stdout)
+
+
 call_script("verify_boot_mode.sh", "Not in UEFI Boot Mode https://wiki.archlinux.org/title/installation_guide#Verify_the_boot_mode")
 call_script("connect_to_internet.sh")
 call_script("update_system_clock.sh")
