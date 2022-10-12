@@ -23,12 +23,14 @@ def call_script(script, error_message=None, supress_error=False):
             raise Exception(exc.stdout)
 
 
-def present_options(options, message):
+def present_options(options, message, descriptions=None):
     user_input = ''
 
     input_message = f"{message}:\n"
     for index, item in enumerate(options):
         input_message += f'{index + 1}) {item}\n'
+        if descriptions is not None:
+            input_message += f"\t{descriptions[index]}"
 
     while user_input not in map(str, range(1, len(options) + 1)):
         user_input = input(input_message)
@@ -48,6 +50,9 @@ def select_disk():
 
 
 YES_NO = ["Yes", "No"]
+INSTALL_TYPES = ["Server", "Desktop"]
+INSTALL_TYPES_DESC = ["Subtypes Presented Later", "Alacritty terminal, KDE desktop with login, bluetooth support"]
+SERVER_TYPES = ["Hadoop"]
 
 call_script("verify_boot_mode.sh",
             "Not in UEFI Boot Mode https://wiki.archlinux.org/title/installation_guide#Verify_the_boot_mode")
@@ -90,7 +95,8 @@ call_script(f"mount_file_system.sh {root} {boot}")
 
 if YES_NO[present_options(YES_NO, "Provide specific mirror?")] == "Yes":
     mirror = input("Enter mirror root:\n")
-    call_script("select_custom_mirror.sh")
+    call_script(f"select_custom_mirror.sh {mirror}")
 else:
     call_script("select_mirror.sh")
 
+install_type = INSTALL_TYPES[present_options(INSTALL_TYPES, "Select Install type", INSTALL_TYPES_DESC)]
