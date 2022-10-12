@@ -21,10 +21,13 @@ def call_command(command, error_message=None, supress_error=False):
             if error_message is not None:
                 raise Exception(error_message)
             raise Exception(exc.stdout)
+
+
 def call_script(script, error_message=None, supress_error=False):
     return call_command(f"scripts/{script}", error_message, supress_error)
 
-def chroot_script(script, error_message=None, supress_error=False)
+
+def chroot_script(script, error_message=None, supress_error=False):
     return call_command(f"arch-chroot /mnt sh -c scripts/{script}", error_message, supress_error)
 
 
@@ -56,7 +59,8 @@ def select_disk():
 
 YES_NO = ["Yes", "No"]
 INSTALL_TYPES = ["Server", "Desktop"]
-INSTALL_TYPES_DESC = ["Subtypes Presented Later", "Alacritty terminal, KDE desktop with login, bluetooth support, Pipewire audio"]
+INSTALL_TYPES_DESC = ["Subtypes Presented Later",
+                      "Alacritty terminal, KDE desktop with login, bluetooth support, Pipewire audio"]
 SERVER_TYPES = ["Hadoop"]
 
 call_script("verify_boot_mode.sh",
@@ -93,16 +97,16 @@ if YES_NO[present_options(YES_NO, "Confirm Installation")] == "No":
     raise Exception("Installation Aborted")
 
 call_script("unmount.sh", supress_error=True)
-call_script(f"create_partitions.sh {disk}")
+# call_script(f"create_partitions.sh {disk}")
 boot = call_script(f"get_boot_partition.sh {disk}")
 root = call_script(f"get_root_partition.sh {disk}")
 call_script(f"mount_file_system.sh {root} {boot}")
 
-if YES_NO[present_options(YES_NO, "Provide specific mirror?")] == "Yes":
-    mirror = input("Enter mirror root:\n")
-    call_script(f"select_custom_mirror.sh '{mirror}'")
-else:
-    call_script("select_mirror.sh")
+# if YES_NO[present_options(YES_NO, "Provide specific mirror?")] == "Yes":
+#     mirror = input("Enter mirror root:\n")
+#     call_script(f"select_custom_mirror.sh '{mirror}'")
+# else:
+#     call_script("select_mirror.sh")
 
 install_type = INSTALL_TYPES[present_options(INSTALL_TYPES, "Select Install type", INSTALL_TYPES_DESC)]
 packages = "base linux linux-headers linux-zen linux-zen-headers linux-firmware nano networkmanager openssh snapper zsh sudo git base-devel"
@@ -113,7 +117,7 @@ if intel:
 if install_type == "Desktop":
     packages += " bluez-utils blueman alacritty plasma xorg pipewire"
 
-call_script(f"pacstrap.sh {packages}")
-call_script("fstab.sh")
+# call_script(f"pacstrap.sh {packages}")
+# call_script("fstab.sh")
 
 call_script("copy_install_scripts.sh")
