@@ -180,6 +180,9 @@ chroot_script(f"set_boot_loader.sh {cpu} {root}")
 systemctl_enables = ["snapper-boot.timer", "snapper-cleanup.timer", "snapper-timeline.timer", "NetworkManager"]
 if install_type == "Desktop":
     systemctl_enables.append("sddm")
-print(systemctl_enables)
 for systemctl_enable in systemctl_enables:
     chroot_script(f"enable_systemctl_item.sh {systemctl_enable}")
+
+chroot_script(f"add_user.sh {username} {user_password}")
+chroot_script("set_zsh_default_shell.sh root")
+chroot_script(f"set_zsh_default_shell.sh {username}")

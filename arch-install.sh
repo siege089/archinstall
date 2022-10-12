@@ -21,14 +21,6 @@ archroot () {
 	username=$4
 
 
-	echo "Post Installation"
-	echo "Enable Systemd timers/services"
-	systemctl enable snapper-boot.timer
-	systemctl enable snapper-cleanup.timer
-	systemctl enable snapper-timeline.timer
-	systemctl enable sddm
-	systemctl enable NetworkManager
-
 	echo "Add user $username as sudoer"
 	useradd -m $username
 	passwd $username
