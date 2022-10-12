@@ -11,14 +11,15 @@ def get_cpu_type():
             return re.sub(".*vendor_id.*:", "", line, 1).strip()
 
 
-def call_script(script, error_message=None):
+def call_script(script, error_message=None, supress_error=False):
     command = f"bash scripts/{script}"
     try:
         output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as exc:
-        if error_message is not None:
-            raise Exception(error_message)
-        raise Exception(exc.stdout)
+        if not supress_error:
+            if error_message is not None:
+                raise Exception(error_message)
+            raise Exception(exc.stdout)
 
 
 def present_options(options, message):
@@ -77,4 +78,4 @@ print("********************")
 if present_options(["Yes", "No"], "Confirm Installation") != 0:
     raise Exception("Installation Aborted")
 
-call_script("unmount.sh")
+call_script("unmount.sh", supress_error=True)
