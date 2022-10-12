@@ -10,33 +10,6 @@ error_exit()
 
 
 
-echo "" | tee -a arch-install.log
-echo "Hostname: $hostname" | tee -a arch-install.log
-echo "Selected disk: $disk" | tee -a arch-install.log
-echo "CPU: $cpu" | tee -a arch-install.log
-echo "Username: $username" | tee -a arch-install.log
-PS3="Confirm Installation: "
-
-
-
-select opt in yes no*
-do
-	case $opt in
-		yes)
-			echo "Starting Install" | tee -a arch-install.log
-			break
-			;;
-
-		no*)
-			echo "Canceling Install" | tee -a arch-install.log
-			exit 1
-			;;
-
-		*)
-      		error_exit "Invalid option $REPLY"
-			;;
-	esac
-done
 umount -R /mnt
 
 echo "1.9.1 Example layouts - UEFI with GPT (no swap)" | tee -a arch-install.log
