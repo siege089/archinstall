@@ -1,4 +1,4 @@
-echo "1.7 Connect to the internet" | tee -a arch-install.log
+echo "1.7 Connect to the internet"
 linkup=`ip link | awk '/state UP/'`
 if [[ $linkup == "" ]]
 then

@@ -7,12 +7,6 @@ error_exit()
 	exit 1
 }
 
-echo "1.7 Connect to the internet" | tee -a arch-install.log
-linkup=`ip link | awk '/state UP/'`
-if [[ $linkup == "" ]]
-then
-	error_exit "Connect to internet first"
-fi
 
 echo "1.8 Update the system clock" | tee -a arch-install.log
 time_synced=`timedatectl status 2> /dev/null | awk '/^System clock synchronized:/{print $4}'`
