@@ -22,7 +22,7 @@ def call_script(script, error_message=None):
 def select_disk():
     command = "fdisk -l 2> /dev/null | awk '/^Disk \//{print substr($2,0,length($2)-1)}'"
     try:
-        output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT, stdin=subprocess.STD_OUTPUT_HANDLE)
+        output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
         print(output)
     except subprocess.CalledProcessError as exc:
         if error_message is not None:
