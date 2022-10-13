@@ -164,4 +164,4 @@ for systemctl_enable in systemctl_enables:
 chroot_script(f"add_user.sh {username} {user_password}")
 chroot_script("set_zsh_default_shell.sh root")
 chroot_script(f"set_zsh_default_shell.sh {username}")
-call_script(f"copy_postinstall.sh {username}")mount_file_system.sh
+call_script(f"copy_postinstall.sh {username}")
